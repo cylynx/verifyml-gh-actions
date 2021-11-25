@@ -16,10 +16,30 @@ jobs:
       - name: Checkout to Current Branch
         uses: actions/checkout@v2
 
-      - name: Run Javascript Function
-        uses: actions/github-script@v5
+      - name: Setup Node 16
+        uses: actions/setup-node@v2
         with:
-          github-token: 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
-          script: |
-            const func = require('./dist/index.js');
-            console.log (func.randomFunction(123));
+          node-version: 16
+
+      - name: Setup Yarn
+        run: npm install -g yarn
+
+      - name: Install All Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build Dependencies
+        run: yarn run build
+
+      # - name: Run Javascript Function
+      #   uses: actions/github-script@v5
+      #   with:
+      #     github-token: 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
+      #     script: |
+      #       const func = require('./dist/index.js');
+      #       func.randomFunction();
+
+      - name: Action Step
+        uses: './'
+        id: 'action-step'
+        with:
+          name-to-greets: Yinghua

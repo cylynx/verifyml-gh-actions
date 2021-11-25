@@ -1,0 +1,39 @@
+{
+  "name": "verifyml-model-reports",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Automated documentation of model and alerts from performance / fairness checks.",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "npx -p typescript tsc --p ./tsconfig.json --watch",
+    "build": "npx -p typescript tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cylynx/verifyml-gh-actions.git"
+  },
+  "keywords": [
+    "VerifyML"
+  ],
+  "author": "Cylynx Pte Ltd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cylynx/verifyml-gh-actions/issues"
+  },
+  "homepage": "https://github.com/cylynx/verifyml-gh-actions#README",
+  "devDependencies": {
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
+    "@commitlint/types": "^15.0.0",
+    "@types/node": "^16.11.10",
+    "eslint": "^8.3.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.2",
+    "typescript": "^4.5.2"
+  },
+  "lint-staged": {
+    "src/**/*.+(js|jsx|ts|tsx|json|css|md)": [
+      "npx prettier --write"
+    ]
+  }
+}

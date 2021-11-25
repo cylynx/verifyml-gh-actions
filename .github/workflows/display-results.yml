@@ -1,0 +1,25 @@
+name: Display Results
+
+on: [push]
+
+# on:
+#   pull_request:
+#     branches:
+#       - master
+#       - develop
+
+jobs:
+  read-dataset:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to Current Branch
+        uses: actions/checkout@v2
+
+      - name: Run Javascript Function
+        uses: actions/github-script@v5
+        with:
+          github-token: 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
+          script: |
+            const func = require('./dist/index.js');
+            console.log (func.randomFunction(123));

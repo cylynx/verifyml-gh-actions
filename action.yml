@@ -2,12 +2,13 @@ name: 'Display VerifyML Reports'
 description: 'Automated documentation of model and alerts from performance / fairness checks'
 author: 'Cylynx Pte Ltd'
 inputs:
+  cwd:
+    description: 'Current working directory'
+    required: false
+    default: ${{ github.workspace }}
   data-path:
-    description: 'Path to directory that store the protobuf file. Examples: /data/output/example.proto'
+    description: 'Path that store the protobuf file. Example: /data/output/sample.proto'
     required: true
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
 runs:
   using: 'node12'
-  main: 'dist/index.js'
+  main: 'dist/main.js'

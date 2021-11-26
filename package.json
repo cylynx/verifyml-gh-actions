@@ -4,9 +4,13 @@
   "private": true,
   "description": "Automated documentation of model and alerts from performance / fairness checks.",
   "main": "dist/index.js",
+  "engines": {
+    "node": "^16"
+  },
   "scripts": {
     "dev": "npx -p typescript tsc --p ./tsconfig.json --watch",
-    "build": "npx -p typescript tsc"
+    "build": "npx -p typescript tsc",
+    "proto": "pbjs -t json public/proto/schema.proto > public/proto/schema.json"
   },
   "repository": {
     "type": "git",
@@ -26,7 +30,6 @@
     "@commitlint/config-conventional": "^15.0.0",
     "@commitlint/types": "^15.0.0",
     "@types/node": "^16.11.10",
-    "@types/node-fetch": "^3.0.3",
     "eslint": "^8.3.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.1.2",
@@ -40,6 +43,7 @@
   "dependencies": {
     "@actions/core": "^1.6.0",
     "@actions/github": "^5.0.0",
-    "node-fetch": "2"
+    "node-fetch": "2",
+    "protobufjs": "^6.11.2"
   }
 }

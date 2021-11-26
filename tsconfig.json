@@ -19,7 +19,7 @@
     "noImplicitReturns": true,
     "strictNullChecks": true,
     "paths": {
-      "@assets/*": ["./assets/*"],
+      "@controller/*": ["./controller/*"],
       "@typings/*": ["./typings/*"],
       "@utils/*": ["./utils/*"]
     }

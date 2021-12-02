@@ -7,7 +7,7 @@ on:
       - develop
 
 jobs:
-  read-dataset:
+  report-generation:
     runs-on: ubuntu-latest
 
     steps:

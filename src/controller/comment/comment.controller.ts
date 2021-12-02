@@ -7,7 +7,6 @@ class CommentController implements CommentInterface {
   private constructMarkdown(result: TestResult, filePath: string): string {
     const repoUrl = github.context.payload.repository?.html_url;
     const { GITHUB_HEAD_REF } = process.env;
-    console.log(process.env);
     const githubDataPath = `${repoUrl}/blob/${GITHUB_HEAD_REF}${filePath}`;
 
     const title = this.constructTitle(githubDataPath);
@@ -25,7 +24,10 @@ ${viewer}`;
     const modelCardLink = `https://report.verifyml.com/redirect?url=${filePath}&section=modelDetails`;
     const content = `## 🔍 Model Card Viewer
 
-View and compare your dataset with our elegant [Model Card Viewer](${modelCardLink}). ✨  `;
+View and compare your dataset with our elegant [Model Card Viewer](${modelCardLink}). ✨
+
+Your repository visibility is required to be <b>public</b> in order to use the Model Card Viewer.
+`;
 
     return content;
   }

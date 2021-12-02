@@ -1,5 +1,0 @@
-{
-  "performance_tests": { "passed": 1, "failed": 0 },
-  "explainability_tests": { "passed": 2, "failed": 0 },
-  "fairness_tests": { "passed": 7, "failed": 0 }
-}

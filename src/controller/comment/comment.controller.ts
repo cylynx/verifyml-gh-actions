@@ -15,7 +15,7 @@ class CommentController implements CommentInterface {
     ${viewer}
     `;
 
-    return mdTemplate;
+    return String(mdTemplate);
   }
 
   private constructViewer(filePath: string) {
@@ -72,7 +72,6 @@ class CommentController implements CommentInterface {
 
     const { number: issueNumber } = context.issue;
 
-    console.log('issueNumber ' + issueNumber);
     const octokit = github.getOctokit(githubToken);
     octokit.rest.issues.createComment({
       ...context.repo,

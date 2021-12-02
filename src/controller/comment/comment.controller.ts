@@ -64,7 +64,6 @@ class CommentController implements CommentInterface {
     const comment = this.constructMarkdown(result, filePath);
 
     const githubToken = core.getInput('GITHUB_TOKEN');
-    console.log(githubToken);
 
     const context = github.context;
     if (context.payload.pull_request == null) {
@@ -72,7 +71,8 @@ class CommentController implements CommentInterface {
     }
 
     const pullRequestNumber = context.payload['pull_request_number'];
-    console.log(pullRequestNumber);
+    console.log('pullRequestNumber' + pullRequestNumber);
+    console.log('githubToken' + githubToken);
     const octokit = github.getOctokit(githubToken);
     octokit.rest.issues.createComment({
       ...context.repo,

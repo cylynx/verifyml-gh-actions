@@ -22,9 +22,6 @@ jobs:
       - name: Build Dependencies
         run: npm run build
 
-      - name: List Directory
-        run: ls -al
-
       - name: Action Step
         # uses: cylynx@verifyml-report@v1
         uses: './'

@@ -20,8 +20,7 @@ class CommentController implements CommentInterface {
 
   private constructViewer(filePath: string) {
     const modelCardLink = `https://report.verifyml/com/redirect?url=${filePath}&section=modelDetails`;
-    const content = `
-    ## Model Card Viewer 🔍
+    const content = `## Model Card Viewer 🔍
 
 View and compare your dataset with our elegant [Model Card Viewer](${modelCardLink}).
     `;
@@ -32,8 +31,7 @@ View and compare your dataset with our elegant [Model Card Viewer](${modelCardLi
   private constructTitle(path: string) {
     return `# VerifyML Report 🔖
 
-Your test result for [uploaded dataset](${path}) is ready!
-    `;
+Your test result for [uploaded dataset](${path}) is ready!`;
   }
 
   private constructResult(result: TestResult) {
@@ -46,11 +44,11 @@ Your test result for [uploaded dataset](${path}) is ready!
     const table = `## Test Result Summary 📜
 
 |Test Type|Passed|Failed|
-    |---------|:---:|:-----:|
-    |Explainability Analysis| ${EA.passCount} | ${EA.failCount} |
-    |Quantitative Analysis| ${QA.passCount} | ${QA.failCount} |
-    |Fairness Analysis| ${FA.passCount} | ${FA.failCount} |
-    `;
+|---------|:---:|:-----:|
+|Explainability Analysis| ${EA.passCount} | ${EA.failCount} |
+|Quantitative Analysis| ${QA.passCount} | ${QA.failCount} |
+|Fairness Analysis| ${FA.passCount} | ${FA.failCount} |
+`;
 
     return table;
   }

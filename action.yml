@@ -9,10 +9,6 @@ inputs:
   data-path:
     description: 'Path that store the protobuf file. Example: /data/output/sample.proto'
     required: true
-  GITHUB_TOKEN:
-    description: 'Github Token'
-    required: true
-    default: ${{ secrets.GITHUB_TOKEN }}
 runs:
   using: 'node12'
   main: 'dist/main.js'

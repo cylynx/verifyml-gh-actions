@@ -14,8 +14,8 @@ class CommentController implements CommentInterface {
     const viewer = this.constructViewer(githubDataPath);
 
     const mdTemplate = `${title}
-    ${testSummary}
-    ${viewer}`;
+${testSummary}
+${viewer}`;
 
     return String(mdTemplate);
   }
@@ -45,7 +45,7 @@ The test result for your [uploaded dataset](${path}) is ready! 🎉`;
     const table = `## 📜 Test Result Summary
 
 |Test Type|Passed|Failed|
-|---------|:---:|:-----:|
+|:--------|:---:|:-----:|
 |Explainability Analysis| ${EA.passCount} | ${EA.failCount} |
 |Quantitative Analysis| ${QA.passCount} | ${QA.failCount} |
 |Fairness Analysis| ${FA.passCount} | ${FA.failCount} |

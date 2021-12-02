@@ -13,24 +13,24 @@ class CommentController implements CommentInterface {
     const testSummary = this.constructResult(result);
     const viewer = this.constructViewer(githubDataPath);
 
-    const mdTemplate = title + testSummary + viewer;
+    const mdTemplate = `${title}  ${testSummary}  ${viewer}`;
 
     return String(mdTemplate);
   }
 
   private constructViewer(filePath: string) {
     const modelCardLink = `https://report.verifyml/com/redirect?url=${filePath}&section=modelDetails`;
-    const content = `## Model Card Viewer 🔍
+    const content = `## 🔍 Model Card Viewer
 
-View and compare your dataset with our elegant [Model Card Viewer](${modelCardLink}). ✨`;
+View and compare your dataset with our elegant [Model Card Viewer](${modelCardLink}). ✨  `;
 
     return content;
   }
 
   private constructTitle(path: string) {
-    return `# VerifyML Report 🔖
+    return `# VerifyML Report
 
-The test result for your [uploaded dataset](${path}) is ready! 🎉`;
+The test result for your [uploaded dataset](${path}) is ready! 🎉   `;
   }
 
   private constructResult(result: TestResult) {
@@ -40,7 +40,7 @@ The test result for your [uploaded dataset](${path}) is ready! 🎉`;
       fairnessAnalysis: FA,
     } = result;
 
-    const table = `## Test Result Summary 📜
+    const table = `## 📜 Test Result Summary
 
 |Test Type|Passed|Failed|
 |---------|:---:|:-----:|

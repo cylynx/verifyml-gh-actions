@@ -22,7 +22,7 @@ jobs:
       - name: Build Dependencies
         run: npm run build
 
-      - name: Action Step
+      - name: Generate VerifyML Report
         # uses: cylynx@verifyml-report@v1
         uses: './'
         id: action-step

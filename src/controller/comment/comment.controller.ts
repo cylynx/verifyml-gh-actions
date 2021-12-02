@@ -4,16 +4,30 @@ import * as github from '@actions/github';
 import * as core from '@actions/core';
 
 class CommentController implements CommentInterface {
-  private constructMarkdown(result: TestResult, path: string): string {
-    const title = this.constructTitle(path);
+  private constructMarkdown(result: TestResult, filePath: string): string {
+    const title = this.constructTitle(filePath);
     const testSummary = this.constructResult(result);
+    const viewer = this.constructViewer(filePath);
 
     const mdTemplate = `
     ${title}
     ${testSummary}
+    ${viewer}
     `;
 
     return mdTemplate;
+  }
+
+  private constructViewer(filePath: string) {
+    // const context = github.context.payload.repository?.html_url;
+
+    const content = `
+    ## 🔍 Model Card Viewer
+
+    View and compare your dataset with our elegant [Model Card Viewer](${filePath}).
+    `;
+
+    return content;
   }
 
   private constructTitle(path: string) {
@@ -33,7 +47,7 @@ class CommentController implements CommentInterface {
     } = result;
 
     const table = `
-     ## 🔍 Test Result Summary
+     ## 📜 Test Result Summary
 
     |Test Type|Passed|Failed|
     |---------|:---:|:-----:|
@@ -46,8 +60,9 @@ class CommentController implements CommentInterface {
     return table;
   }
 
-  public makeComment(result: TestResult, path: string) {
-    const comment = this.constructMarkdown(result, path);
+  public makeComment(result: TestResult, filePath: string) {
+    const comment = this.constructMarkdown(result, filePath);
+
     const githubToken = core.getInput('GITHUB_TOKEN');
 
     const context = github.context;

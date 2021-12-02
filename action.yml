@@ -4,14 +4,14 @@ author: 'Cylynx Pte Ltd'
 inputs:
   cwd:
     description: 'Current working directory'
-    required: false
+    required: true
     default: ${{ github.workspace }}
   data-path:
     description: 'Path that store the protobuf file. Example: /data/output/sample.proto'
     required: true
   GITHUB_TOKEN:
     description: 'Github Token'
-    required: false
+    required: true
     default: ${{ secrets.GITHUB_TOKEN }}
 runs:
   using: 'node12'

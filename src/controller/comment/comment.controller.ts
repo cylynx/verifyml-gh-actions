@@ -30,9 +30,7 @@ View and compare your dataset with our elegant [Model Card Viewer](${modelCardLi
   }
 
   private constructTitle(path: string) {
-    return `# VerifyML Report
-
-The test result for your [uploaded dataset](${path}) is ready! 🎉`;
+    return `The VerifyML Report for your [uploaded dataset](${path}) is ready! 🎉`;
   }
 
   private constructResult(result: TestResult) {
@@ -72,7 +70,7 @@ The test result for your [uploaded dataset](${path}) is ready! 🎉`;
       repo,
       owner,
       issue_number: issueNumber,
-      body: '<h1>This is sample</h1>' + body,
+      body,
     });
   }
 }

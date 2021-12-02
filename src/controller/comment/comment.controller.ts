@@ -7,6 +7,7 @@ class CommentController implements CommentInterface {
   private constructMarkdown(result: TestResult, filePath: string): string {
     const repoUrl = github.context.payload.repository?.html_url;
     const { GITHUB_HEAD_REF } = process.env;
+    console.log(process.env);
     const githubDataPath = `${repoUrl}/blob/${GITHUB_HEAD_REF}${filePath}`;
 
     const title = this.constructTitle(githubDataPath);

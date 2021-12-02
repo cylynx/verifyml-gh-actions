@@ -30,7 +30,7 @@ View and compare your dataset with our elegant [Model Card Viewer](${modelCardLi
   private constructTitle(path: string) {
     return `# VerifyML Report
 
-The test result for your [uploaded dataset](${path}) is ready! 🎉   `;
+The test result for your [uploaded dataset](${path}) is ready! 🎉`;
   }
 
   private constructResult(result: TestResult) {

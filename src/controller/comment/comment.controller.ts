@@ -42,7 +42,7 @@ View and compare your dataset with our elegant [Model Card Viewer](${modelCardLi
 
     const table = `## 📜 Test Result Summary
 
-|Test Type|Passed|Failed|
+|Type of Tests|Pass|Fail|
 |:--------|:---:|:-----:|
 |Explainability Analysis| ${EA.passCount} | ${EA.failCount} |
 |Quantitative Analysis| ${QA.passCount} | ${QA.failCount} |

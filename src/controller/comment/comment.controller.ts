@@ -70,13 +70,13 @@ class CommentController implements CommentInterface {
       throw new Error('no pull request found.');
     }
 
-    const pullRequestNumber = context.payload['pull_request_number'];
-    console.log('pullRequestNumber' + pullRequestNumber);
-    console.log('githubToken' + githubToken);
+    const { number: issueNumber } = context.issue;
+
+    console.log('issueNumber ' + issueNumber);
     const octokit = github.getOctokit(githubToken);
     octokit.rest.issues.createComment({
       ...context.repo,
-      issue_number: pullRequestNumber,
+      issue_number: issueNumber,
       body: comment,
     });
   }

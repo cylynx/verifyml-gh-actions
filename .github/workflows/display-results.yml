@@ -1,7 +1,7 @@
 name: Display Results
 
 on:
-  push:
+  pull_request:
 
 jobs:
   report-generation:
@@ -19,11 +19,11 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: List Directory
-        run: ls -al
-
       - name: Build Dependencies
         run: npm run build
+
+      - name: List Directory
+        run: ls -al
 
       - name: Action Step
         # uses: cylynx@verifyml-report@v1

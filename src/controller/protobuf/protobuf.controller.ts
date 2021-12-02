@@ -1,5 +1,5 @@
 import type { IProtobuf } from './protobuf.interface';
-import type { ModelCard } from './protobuf.type';
+import * as TProtobuf from './protobuf.type';
 import protobuf, { Reader, Root } from 'protobufjs';
 import jsonDescriptor from './protobuf.schema.json';
 
@@ -9,7 +9,6 @@ class ProtobufController implements IProtobuf {
   public decodeMessage = (fileBuffer: ArrayBuffer) => {
     const uint8Arr = new Uint8Array(fileBuffer);
     const root: Root = protobuf.Root.fromJSON(jsonDescriptor);
-    console.log(root);
 
     const modelDetails = root.lookupType('model_card_toolkit.proto.ModelCard');
 
@@ -20,20 +19,68 @@ class ProtobufController implements IProtobuf {
 
     const reader = new Reader(uint8Arr);
 
-    const message = modelDetails.decode(reader) as unknown as ModelCard;
+    const message = modelDetails.decode(
+      reader,
+    ) as unknown as TProtobuf.ModelCard;
     return message;
   };
 
-  // private strToArrayBuffer = (str: string): ArrayBuffer => {
-  //   let buf = new ArrayBuffer(str.length * 2);
-  //   let bufView = new Uint8Array(buf);
+  private getReportResult = (
+    reports: TProtobuf.TestInputReport,
+  ): TProtobuf.ReportResult => {
+    const defaultResult: TProtobuf.ReportResult = {
+      passCount: 0,
+      failCount: 0,
+    };
 
-  //   for (let i = 0, strLen = str.length; i < strLen; i++) {
-  //     bufView[i] = str.charCodeAt(i);
-  //   }
+    const dict = reports.reduce((result, report) => {
+      const { tests } = report;
+      const testCount = tests.length;
 
-  //   return buf;
-  // };
+      if (testCount === 0) {
+        return result;
+      }
+
+      const passCount = tests.reduce((count: number, test: TProtobuf.Test) => {
+        const { passed = false } = test;
+
+        if (passed === false) {
+          return count;
+        }
+
+        return count + 1;
+      }, 0);
+
+      const failCount = testCount - passCount;
+      const newResult = {
+        passCount: result.passCount + passCount,
+        failCount: result.failCount + failCount,
+      };
+
+      return newResult;
+    }, defaultResult);
+
+    return dict;
+  };
+
+  public deriveTestResults = (
+    modelCard: TProtobuf.ModelCard,
+  ): TProtobuf.TestResult => {
+    const { quantitativeAnalysis, explainabilityAnalysis, fairnessAnalysis } =
+      modelCard;
+
+    const { explainabilityReports } = explainabilityAnalysis;
+    const { performanceMetrics } = quantitativeAnalysis;
+    const { fairnessReports } = fairnessAnalysis;
+
+    const testResult: TProtobuf.TestResult = {
+      explainabilityAnalysis: this.getReportResult(explainabilityReports),
+      quantitativeAnalysis: this.getReportResult(performanceMetrics),
+      fairnessAnalysis: this.getReportResult(fairnessReports),
+    };
+
+    return testResult;
+  };
 }
 
 export default ProtobufController;

@@ -28,7 +28,8 @@ jobs:
         run: npm run build
 
       - name: Action Step
+        # uses: cylynx@verifyml-report@v1
         uses: './'
         id: action-step
         with:
-          data-path: '/public/data/model_card.proto'
+          data-path: '/public/data/credit-card-fraud.proto'

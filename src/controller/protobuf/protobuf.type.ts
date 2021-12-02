@@ -1,3 +1,4 @@
+import * as TProtobuf from './protobuf.type';
 export interface ModelCard {
   modelDetails: ModelDetails;
   modelParameters: ModelParameters;
@@ -168,3 +169,23 @@ export type FairnessReport = {
   graphics: GraphicsCollection;
   tests: Test[];
 };
+
+/** ====================================
+ *   Test Result
+ ** ==================================== */
+export type ReportResult = {
+  passCount: number;
+  failCount: number;
+};
+
+export type TestResult = {
+  quantitativeAnalysis: ReportResult;
+  explainabilityAnalysis: ReportResult;
+  fairnessAnalysis: ReportResult;
+};
+
+export type TestInputReport = Array<
+  | TProtobuf.ExplainabilityReport
+  | TProtobuf.PerformanceMetric
+  | TProtobuf.FairnessReport
+>;

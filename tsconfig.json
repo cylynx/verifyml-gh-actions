@@ -17,12 +17,7 @@
     "noUnusedParameters": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
-    "strictNullChecks": true,
-    "paths": {
-      "@controller/*": ["./controller/*"],
-      "@typings/*": ["./typings/*"],
-      "@utils/*": ["./utils/*"]
-    }
+    "strictNullChecks": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist", "public"]

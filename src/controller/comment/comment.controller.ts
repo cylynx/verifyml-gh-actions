@@ -6,7 +6,8 @@ import * as core from '@actions/core';
 class CommentController implements CommentInterface {
   private constructMarkdown(result: TestResult, filePath: string): string {
     const repoUrl = github.context.payload.repository?.html_url;
-    const githubDataPath = `${repoUrl}${filePath}`;
+    const { GITHUB_HEAD_REF } = process.env;
+    const githubDataPath = `${repoUrl}/blob/${GITHUB_HEAD_REF}${filePath}`;
 
     const title = this.constructTitle(githubDataPath);
     const testSummary = this.constructResult(result);
@@ -18,21 +19,20 @@ class CommentController implements CommentInterface {
   }
 
   private constructViewer(filePath: string) {
+    const modelCardLink = `https://report.verifyml/com/redirect?url=${filePath}&section=modelDetails`;
     const content = `
-    ## 🔍 Model Card Viewer
+    ## Model Card Viewer 🔍
 
-    View and compare your dataset with our elegant [Model Card Viewer](${filePath}).
+View and compare your dataset with our elegant [Model Card Viewer](${modelCardLink}).
     `;
 
     return content;
   }
 
   private constructTitle(path: string) {
-    return `
-    # 🔖 VerifyML Report
+    return `# VerifyML Report 🔖
 
-    Your test result for dataset in <code>${path}</code> is ready!
-
+Your test result for [uploaded dataset](${path}) is ready!
     `;
   }
 
@@ -43,15 +43,13 @@ class CommentController implements CommentInterface {
       fairnessAnalysis: FA,
     } = result;
 
-    const table = `
-     ## 📜 Test Result Summary
+    const table = `## Test Result Summary 📜
 
-    |Test Type|Passed|Failed|
+|Test Type|Passed|Failed|
     |---------|:---:|:-----:|
     |Explainability Analysis| ${EA.passCount} | ${EA.failCount} |
     |Quantitative Analysis| ${QA.passCount} | ${QA.failCount} |
     |Fairness Analysis| ${FA.passCount} | ${FA.failCount} |
-
     `;
 
     return table;
@@ -69,8 +67,6 @@ class CommentController implements CommentInterface {
 
     const { number: issueNumber } = context.issue;
     const { repo, owner } = context.repo;
-    console.log(owner);
-    console.log(body);
 
     const octokit = github.getOctokit(githubToken);
     octokit.rest.issues.createComment({

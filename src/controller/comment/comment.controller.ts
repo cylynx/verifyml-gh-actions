@@ -21,7 +21,7 @@ ${viewer}`;
   }
 
   private constructViewer(filePath: string) {
-    const modelCardLink = `https://report.verifyml/com/redirect?url=${filePath}&section=modelDetails`;
+    const modelCardLink = `https://report.verifyml.com/redirect?url=${filePath}&section=modelDetails`;
     const content = `## 🔍 Model Card Viewer
 
 View and compare your dataset with our elegant [Model Card Viewer](${modelCardLink}). ✨  `;
@@ -72,7 +72,7 @@ The test result for your [uploaded dataset](${path}) is ready! 🎉`;
       repo,
       owner,
       issue_number: issueNumber,
-      body,
+      body: '<h1>This is sample</h1>' + body,
     });
   }
 }

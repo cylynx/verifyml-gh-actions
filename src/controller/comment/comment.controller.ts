@@ -5,9 +5,12 @@ import * as core from '@actions/core';
 
 class CommentController implements CommentInterface {
   private constructMarkdown(result: TestResult, filePath: string): string {
-    const title = this.constructTitle(filePath);
+    const repoUrl = github.context.payload.repository?.html_url;
+    const githubDataPath = `${repoUrl}${filePath}`;
+
+    const title = this.constructTitle(githubDataPath);
     const testSummary = this.constructResult(result);
-    const viewer = this.constructViewer(filePath);
+    const viewer = this.constructViewer(githubDataPath);
 
     const mdTemplate = title + testSummary + viewer;
 
@@ -15,8 +18,6 @@ class CommentController implements CommentInterface {
   }
 
   private constructViewer(filePath: string) {
-    // const context = github.context.payload.repository?.html_url;
-
     const content = `
     ## 🔍 Model Card Viewer
 
@@ -57,7 +58,7 @@ class CommentController implements CommentInterface {
   }
 
   public makeComment(result: TestResult, filePath: string) {
-    const comment = this.constructMarkdown(result, filePath);
+    const body = this.constructMarkdown(result, filePath);
 
     const githubToken = core.getInput('GITHUB_TOKEN');
 
@@ -67,12 +68,16 @@ class CommentController implements CommentInterface {
     }
 
     const { number: issueNumber } = context.issue;
+    const { repo, owner } = context.repo;
+    console.log(owner);
+    console.log(body);
 
     const octokit = github.getOctokit(githubToken);
     octokit.rest.issues.createComment({
-      ...context.repo,
+      repo,
+      owner,
       issue_number: issueNumber,
-      body: comment,
+      body,
     });
   }
 }

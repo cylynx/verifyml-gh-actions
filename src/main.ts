@@ -23,7 +23,7 @@ const main = async () => {
     const data = await readerController.readDataFromPath(filePath);
     const modelCard = protobufController.decodeMessage(data);
     const testResult = protobufController.deriveTestResults(modelCard);
-    commentController.makeComment(testResult, filePath);
+    commentController.makeComment(testResult, path);
   } catch (error: any) {
     core.setFailed(error.message);
   }

@@ -9,11 +9,7 @@ class CommentController implements CommentInterface {
     const testSummary = this.constructResult(result);
     const viewer = this.constructViewer(filePath);
 
-    const mdTemplate = `
-    ${title}
-    ${testSummary}
-    ${viewer}
-    `;
+    const mdTemplate = title + testSummary + viewer;
 
     return String(mdTemplate);
   }

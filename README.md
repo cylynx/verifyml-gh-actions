@@ -14,7 +14,7 @@ See [action.yml](https://github.com/cylynx/verifyml-reports/blob/v0.0.1-beta/act
 ```yaml
 steps:
   - name: Generate VerifyML Report
-  - uses: cylynx@verifyml-reports
+  - uses: cylynx/verifyml-reports@v1.0.2
     with:
       data-path: '/public/data/credit-card-fraud.proto'
 ```

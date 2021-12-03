@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "npx -p typescript tsc --p ./tsconfig.json --watch",
-    "build": "npx -p typescript tsc",
+    "build": "ncc build -o dist/main src/main.ts",
     "proto": "pbjs -t json public/proto/schema.proto > public/proto/schema.json"
   },
   "repository": {
@@ -30,6 +30,7 @@
     "@commitlint/config-conventional": "^15.0.0",
     "@commitlint/types": "^15.0.0",
     "@types/node": "^16.11.10",
+    "@vercel/ncc": "^0.33.0",
     "eslint": "^8.3.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.1.2",

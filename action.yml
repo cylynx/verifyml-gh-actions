@@ -1,6 +1,6 @@
-name: 'Generate VerifyML Reports'
+name: 'Generate VerifyML Report'
 description: 'Automated documentation of model and alerts from performance / fairness checks'
-author: 'Cylynx Pte Ltd'
+author: 'Cylynx'
 inputs:
   cwd:
     description: 'Current working directory'
@@ -16,3 +16,5 @@ inputs:
 runs:
   using: 'node12'
   main: 'dist/main.js'
+  icon: 'bar-chart-2'
+  color: 'gray-dark'

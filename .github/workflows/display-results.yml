@@ -1,7 +1,7 @@
 name: Display Results
 
 on:
-  push:
+  pull_request:
 
 jobs:
   report-generation:

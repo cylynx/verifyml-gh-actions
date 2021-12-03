@@ -17539,7 +17539,7 @@ Your repository visibility is required to be <b>public</b> in order to use the M
             throw new Error('no pull request found.');
         }
         const { number: issueNumber } = context.issue;
-        core.info('The current PR number is: ' + issueNumber);
+        core.info('Writing comments in the PR #' + issueNumber);
         const { repo, owner } = context.repo;
         const octokit = github.getOctokit(githubToken);
         octokit.rest.issues.createComment({
@@ -17741,6 +17741,7 @@ const fs = __importStar(__nccwpck_require__(7147));
 class ReaderController {
     constructor() {
         this.readDataFromPath = (filePath) => {
+            core.info('Reading the protobuf dataset from: ' + filePath);
             return new Promise((resolve, reject) => {
                 fs.readFile(filePath, null, (err, data) => {
                     if (err) {

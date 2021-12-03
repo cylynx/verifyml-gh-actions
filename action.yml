@@ -15,6 +15,7 @@ inputs:
     default: ${{ github.token }}
   TARGET_PR_NUMBER:
     description: 'PR number on pull request event'
+    required: false
     default: ${{ github.event.number }}
 runs:
   using: 'node12'

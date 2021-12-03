@@ -60,11 +60,12 @@ Your repository visibility is required to be <b>public</b> in order to use the M
 
     const githubToken = core.getInput('GITHUB_TOKEN');
 
-    const context = github.context;
-    if (context.issue.number == null) {
+    const prNumber = this.getPRNumber();
+    if (prNumber == null) {
       throw new Error('no pull request found.');
     }
 
+    const context = github.context;
     const { number: issueNumber } = context.issue;
     core.info('Writing comments in the PR #' + issueNumber);
 
@@ -77,6 +78,16 @@ Your repository visibility is required to be <b>public</b> in order to use the M
       issue_number: issueNumber,
       body,
     });
+  }
+
+  private getPRNumber() {
+    const issueNumber = github.context.issue.number;
+    if (issueNumber) return issueNumber;
+
+    const prNumber = core.getInput('TARGET_PR_NUMBER');
+    if (prNumber) return prNumber;
+
+    return null;
   }
 }
 

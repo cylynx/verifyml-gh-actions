@@ -1,7 +1,7 @@
 name: Display Results
 
 on:
-  pull_request:
+  push:
 
 jobs:
   report-generation:
@@ -23,6 +23,6 @@ jobs:
         run: npm run build
 
       - name: Generate VerifyML Report
-        uses: './'
+        uses: 'cylynx/verifyml-reports@v1.0.2'
         with:
           data-path: '/public/data/credit-card-fraud.proto'

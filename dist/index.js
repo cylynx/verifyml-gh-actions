@@ -17534,10 +17534,11 @@ Your repository visibility is required to be <b>public</b> in order to use the M
     makeComment(result, filePath) {
         const body = this.constructMarkdown(result, filePath);
         const githubToken = core.getInput('GITHUB_TOKEN');
-        const context = github.context;
-        if (context.payload.pull_request == null) {
+        const prNumber = this.getPRNumber();
+        if (prNumber == null) {
             throw new Error('no pull request found.');
         }
+        const context = github.context;
         const { number: issueNumber } = context.issue;
         core.info('Writing comments in the PR #' + issueNumber);
         const { repo, owner } = context.repo;
@@ -17548,6 +17549,15 @@ Your repository visibility is required to be <b>public</b> in order to use the M
             issue_number: issueNumber,
             body,
         });
+    }
+    getPRNumber() {
+        const issueNumber = github.context.issue.number;
+        if (issueNumber)
+            return issueNumber;
+        const prNumber = core.getInput('TARGET_PR_NUMBER');
+        if (prNumber)
+            return prNumber;
+        return null;
     }
 }
 exports["default"] = CommentController;

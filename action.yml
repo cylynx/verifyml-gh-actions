@@ -13,6 +13,10 @@ inputs:
     description: 'Github Token'
     required: true
     default: ${{ github.token }}
+  TARGET_PR_NUMBER:
+    description: 'PR number on pull request event'
+    required: false
+    default: ${{ github.event.number }}
 runs:
   using: 'node12'
   main: 'dist/index.js'

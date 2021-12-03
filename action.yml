@@ -1,4 +1,4 @@
-name: 'Display VerifyML Reports'
+name: 'Generate VerifyML Reports'
 description: 'Automated documentation of model and alerts from performance / fairness checks'
 author: 'Cylynx Pte Ltd'
 inputs:

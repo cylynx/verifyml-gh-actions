@@ -17539,6 +17539,7 @@ Your repository visibility is required to be <b>public</b> in order to use the M
             throw new Error('no pull request found.');
         }
         const { number: issueNumber } = context.issue;
+        core.info('The current PR number is: ' + issueNumber);
         const { repo, owner } = context.repo;
         const octokit = github.getOctokit(githubToken);
         octokit.rest.issues.createComment({

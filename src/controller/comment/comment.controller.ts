@@ -66,7 +66,7 @@ Your repository visibility is required to be <b>public</b> in order to use the M
     }
 
     const { number: issueNumber } = context.issue;
-    core.info('The current PR number is: ' + issueNumber);
+    core.info('Writing comments in the PR #' + issueNumber);
 
     const { repo, owner } = context.repo;
 

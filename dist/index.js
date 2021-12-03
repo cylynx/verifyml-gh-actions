@@ -17535,6 +17535,7 @@ Your repository visibility is required to be <b>public</b> in order to use the M
         const body = this.constructMarkdown(result, filePath);
         const githubToken = core.getInput('GITHUB_TOKEN');
         const context = github.context;
+        console.log(context);
         if (context.payload.pull_request == null) {
             throw new Error('no pull request found.');
         }

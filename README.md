@@ -7,14 +7,12 @@ This action provides the following functionality for GitHub Actions users:
 
 # Usage
 
-See [action.yml](https://github.com/cylynx/verifyml-reports/blob/v0.0.1-beta/action.yml)
-
-**Basic**
+See [action.yml](./action.yml)
 
 ```yaml
 steps:
   - name: Generate VerifyML Report
-  - uses: cylynx/verifyml-reports@v1.0.2
+  - uses: cylynx/verifyml-reports@v1
     with:
       data-path: '/public/data/credit-card-fraud.proto'
 ```

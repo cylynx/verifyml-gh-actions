@@ -17498,7 +17498,7 @@ class CommentController {
         const repoUrl = (_a = github.context.payload.repository) === null || _a === void 0 ? void 0 : _a.html_url;
         const { GITHUB_SHA } = process.env;
         const githubDataPath = `${repoUrl}/blob/${GITHUB_SHA}${filePath}`;
-        const title = this.constructTitle();
+        const title = this.constructTitle(githubDataPath, modelCardName);
         const testSummary = this.constructResult(result);
         const viewer = this.constructInspect(githubDataPath, modelCardName);
         const mdTemplate = `${title}
@@ -17508,16 +17508,12 @@ ${viewer}`;
     }
     constructInspect(filePath, modelCardName) {
         const modelCardLink = `https://report.verifyml.com/redirect?url=${filePath}&section=modelDetails`;
-        const content = `## 🔍 Inspect ${modelCardName} report
-
-View and compare your dataset with our elegant [Model Card Viewer](${modelCardLink}). ✨
-
-A public repository is required to use the Model Card Viewer.
-`;
+        let content = `🔍 Inspect ${modelCardName} report: ${modelCardLink}   `;
+        content += 'A public repository is required to use the Model Card Viewer.';
         return content;
     }
-    constructTitle() {
-        return `The test results of your **model card** is automatically generated with VerifyML! 🎉`;
+    constructTitle(githubPath, modelCardName) {
+        return `The test results of your [${modelCardName}](${githubPath}) is automatically generated with VerifyML! 🎉`;
     }
     constructResult(result) {
         const { explainabilityAnalysis: EA, quantitativeAnalysis: QA, fairnessAnalysis: FA, } = result;

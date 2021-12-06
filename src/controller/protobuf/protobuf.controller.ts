@@ -78,22 +78,42 @@ class ProtobufController implements IProtobuf {
     const QAresult = this.getReportResult(performanceMetrics);
     const FAresult = this.getReportResult(fairnessReports);
 
+    this.displayTestMessage(
+      EAresult.failCount,
+      QAresult.failCount,
+      FAresult.failCount,
+    );
+
     const testResult: TProtobuf.TestResult = {
       explainabilityAnalysis: EAresult,
       quantitativeAnalysis: QAresult,
       fairnessAnalysis: FAresult,
     };
 
-    if (
-      EAresult.failCount > 0 ||
-      QAresult.failCount > 0 ||
-      FAresult.failCount > 0
-    ) {
-      core.setFailed('The model does not pass the FEAT analysis');
-    }
-
     return testResult;
   };
+
+  private displayTestMessage(
+    EAfailCount: number,
+    QAfailCount: number,
+    FAfailcount: number,
+  ) {
+    if (EAfailCount > 0) {
+      core.setFailed(
+        'The model does not pass the Explainability Analysis test',
+      );
+    }
+
+    if (QAfailCount > 0) {
+      core.setFailed('The model does not pass the Qualitative Analysis test');
+    }
+
+    if (FAfailcount > 0) {
+      core.setFailed('The model does not pass the Fairness Analysis test');
+    }
+
+    return null;
+  }
 }
 
 export default ProtobufController;

@@ -7,9 +7,7 @@ This action provides the following functionality for GitHub Actions users:
 
 # Usage
 
-See [action.yml](https://github.com/cylynx/verifyml-reports/blob/v0.0.1-beta/action.yml)
-
-**Basic**
+See [action.yml](./action.yml)
 
 ```yaml
 name: Generate VerifyML Report

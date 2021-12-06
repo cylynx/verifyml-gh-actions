@@ -25,4 +25,4 @@ jobs:
       - name: Generate VerifyML Report
         uses: './'
         with:
-          data-path: '/public/data/credit-card-fraud.proto'
+          data-path: '/public/data/loan_approval_example.proto'

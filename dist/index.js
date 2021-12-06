@@ -17493,31 +17493,29 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const github = __importStar(__nccwpck_require__(5438));
 const core = __importStar(__nccwpck_require__(2186));
 class CommentController {
-    constructMarkdown(result, filePath) {
+    constructMarkdown(result, filePath, modelCardName) {
         var _a;
         const repoUrl = (_a = github.context.payload.repository) === null || _a === void 0 ? void 0 : _a.html_url;
-        const { GITHUB_HEAD_REF } = process.env;
-        const githubDataPath = `${repoUrl}/blob/${GITHUB_HEAD_REF}${filePath}`;
+        const { GITHUB_SHA } = process.env;
+        const githubDataPath = `${repoUrl}/blob/${GITHUB_SHA}${filePath}`;
         const title = this.constructTitle(githubDataPath);
         const testSummary = this.constructResult(result);
-        const viewer = this.constructViewer(githubDataPath);
+        const viewer = this.constructInspect(githubDataPath, modelCardName);
         const mdTemplate = `${title}
 ${testSummary}
 ${viewer}`;
         return String(mdTemplate);
     }
-    constructViewer(filePath) {
+    constructInspect(filePath, modelCardName) {
         const modelCardLink = `https://report.verifyml.com/redirect?url=${filePath}&section=modelDetails`;
-        const content = `## 🔍 Model Card Viewer
+        const content = `🔍 Inspect: **[${modelCardName}](${modelCardLink})**
 
-View and compare your dataset with our elegant [Model Card Viewer](${modelCardLink}). ✨
-
-Your repository visibility is required to be <b>public</b> in order to use the Model Card Viewer.
-`;
+    A public repository is required to use the Model Card Viewer.
+    `;
         return content;
     }
-    constructTitle(path) {
-        return `The VerifyML Report for your [uploaded dataset](${path}) is ready! 🎉`;
+    constructTitle(githubPath) {
+        return `The test results of your [model card](${githubPath}) is automatically generated with VerifyML! 🎉`;
     }
     constructResult(result) {
         const { explainabilityAnalysis: EA, quantitativeAnalysis: QA, fairnessAnalysis: FA, } = result;
@@ -17531,8 +17529,8 @@ Your repository visibility is required to be <b>public</b> in order to use the M
 `;
         return table;
     }
-    makeComment(result, filePath) {
-        const body = this.constructMarkdown(result, filePath);
+    makeComment(result, filePath, modelCardName) {
+        const body = this.constructMarkdown(result, filePath, modelCardName);
         const githubToken = core.getInput('GITHUB_TOKEN');
         const prNumber = this.getPRNumber();
         if (prNumber == null) {
@@ -17636,6 +17634,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const protobufjs_1 = __importStar(__nccwpck_require__(5881));
 const protobuf_schema_json_1 = __importDefault(__nccwpck_require__(9381));
+const core = __importStar(__nccwpck_require__(2186));
 class ProtobufController {
     constructor() {
         this.decodeMessage = (fileBuffer) => {
@@ -17682,13 +17681,29 @@ class ProtobufController {
             const { explainabilityReports } = explainabilityAnalysis;
             const { performanceMetrics } = quantitativeAnalysis;
             const { fairnessReports } = fairnessAnalysis;
+            const EAresult = this.getReportResult(explainabilityReports);
+            const QAresult = this.getReportResult(performanceMetrics);
+            const FAresult = this.getReportResult(fairnessReports);
+            this.displayTestMessage(EAresult.failCount, QAresult.failCount, FAresult.failCount);
             const testResult = {
-                explainabilityAnalysis: this.getReportResult(explainabilityReports),
-                quantitativeAnalysis: this.getReportResult(performanceMetrics),
-                fairnessAnalysis: this.getReportResult(fairnessReports),
+                explainabilityAnalysis: EAresult,
+                quantitativeAnalysis: QAresult,
+                fairnessAnalysis: FAresult,
             };
             return testResult;
         };
+    }
+    displayTestMessage(EAfailCount, QAfailCount, FAfailcount) {
+        if (EAfailCount > 0) {
+            core.setFailed('The model does not pass the Explainability Analysis test');
+        }
+        if (QAfailCount > 0) {
+            core.setFailed('The model does not pass the Qualitative Analysis test');
+        }
+        if (FAfailcount > 0) {
+            core.setFailed('The model does not pass the Fairness Analysis test');
+        }
+        return null;
     }
 }
 exports["default"] = ProtobufController;
@@ -17824,8 +17839,9 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         const filePath = `${cwd}${path}`;
         const data = yield readerController.readDataFromPath(filePath);
         const modelCard = protobufController.decodeMessage(data);
+        const { name: modelCardName } = modelCard.modelDetails;
         const testResult = protobufController.deriveTestResults(modelCard);
-        commentController.makeComment(testResult, path);
+        commentController.makeComment(testResult, path, modelCardName);
     }
     catch (error) {
         core.setFailed(error.message);

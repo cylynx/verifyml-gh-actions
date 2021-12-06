@@ -13,7 +13,7 @@ class CommentController implements CommentInterface {
     const { GITHUB_SHA } = process.env;
     const githubDataPath = `${repoUrl}/blob/${GITHUB_SHA}${filePath}`;
 
-    const title = this.constructTitle(githubDataPath, modelCardName);
+    const title = this.constructTitle(githubDataPath);
     const testSummary = this.constructResult(result);
     const viewer = this.constructInspect(githubDataPath, modelCardName);
 
@@ -26,14 +26,16 @@ ${viewer}`;
 
   private constructInspect(filePath: string, modelCardName: string) {
     const modelCardLink = `https://report.verifyml.com/redirect?url=${filePath}&section=modelDetails`;
-    let content = `🔍 Inspect ${modelCardName} report: ${modelCardLink}   `;
-    content += 'A public repository is required to use the Model Card Viewer.';
+    const content = `🔍 Inspect: **[${modelCardName}](${modelCardLink})**
+
+    A public repository is required to use the Model Card Viewer.
+    `;
 
     return content;
   }
 
-  private constructTitle(githubPath: string, modelCardName: string) {
-    return `The test results of your [${modelCardName}](${githubPath}) is automatically generated with VerifyML! 🎉`;
+  private constructTitle(githubPath: string) {
+    return `The test results of your [model card](${githubPath}) is automatically generated with VerifyML! 🎉`;
   }
 
   private constructResult(result: TestResult) {

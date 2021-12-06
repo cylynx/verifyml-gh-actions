@@ -4,14 +4,18 @@ import * as github from '@actions/github';
 import * as core from '@actions/core';
 
 class CommentController implements CommentInterface {
-  private constructMarkdown(result: TestResult, filePath: string): string {
+  private constructMarkdown(
+    result: TestResult,
+    filePath: string,
+    modelCardName: string,
+  ): string {
     const repoUrl = github.context.payload.repository?.html_url;
     const { GITHUB_HEAD_REF } = process.env;
     const githubDataPath = `${repoUrl}/blob/${GITHUB_HEAD_REF}${filePath}`;
 
-    const title = this.constructTitle(githubDataPath);
+    const title = this.constructTitle();
     const testSummary = this.constructResult(result);
-    const viewer = this.constructViewer(githubDataPath);
+    const viewer = this.constructInspect(githubDataPath, modelCardName);
 
     const mdTemplate = `${title}
 ${testSummary}
@@ -20,20 +24,20 @@ ${viewer}`;
     return String(mdTemplate);
   }
 
-  private constructViewer(filePath: string) {
+  private constructInspect(filePath: string, modelCardName: string) {
     const modelCardLink = `https://report.verifyml.com/redirect?url=${filePath}&section=modelDetails`;
-    const content = `## 🔍 Model Card Viewer
+    const content = `## 🔍 Inspect ${modelCardName} report
 
 View and compare your dataset with our elegant [Model Card Viewer](${modelCardLink}). ✨
 
-Your repository visibility is required to be <b>public</b> in order to use the Model Card Viewer.
+A public repository is required to use the Model Card Viewer.
 `;
 
     return content;
   }
 
-  private constructTitle(path: string) {
-    return `The VerifyML Report for your [uploaded dataset](${path}) is ready! 🎉`;
+  private constructTitle() {
+    return `The test results of your **model card** is automatically generated with VerifyML! 🎉`;
   }
 
   private constructResult(result: TestResult) {
@@ -55,8 +59,12 @@ Your repository visibility is required to be <b>public</b> in order to use the M
     return table;
   }
 
-  public makeComment(result: TestResult, filePath: string) {
-    const body = this.constructMarkdown(result, filePath);
+  public makeComment(
+    result: TestResult,
+    filePath: string,
+    modelCardName: string,
+  ) {
+    const body = this.constructMarkdown(result, filePath, modelCardName);
 
     const githubToken = core.getInput('GITHUB_TOKEN');
 

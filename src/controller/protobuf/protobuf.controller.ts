@@ -2,6 +2,7 @@ import type { IProtobuf } from './protobuf.interface';
 import * as TProtobuf from './protobuf.type';
 import protobuf, { Reader, Root } from 'protobufjs';
 import jsonDescriptor from './protobuf.schema.json';
+import * as core from '@actions/core';
 
 class ProtobufController implements IProtobuf {
   constructor() {}
@@ -73,11 +74,23 @@ class ProtobufController implements IProtobuf {
     const { performanceMetrics } = quantitativeAnalysis;
     const { fairnessReports } = fairnessAnalysis;
 
+    const EAresult = this.getReportResult(explainabilityReports);
+    const QAresult = this.getReportResult(performanceMetrics);
+    const FAresult = this.getReportResult(fairnessReports);
+
     const testResult: TProtobuf.TestResult = {
-      explainabilityAnalysis: this.getReportResult(explainabilityReports),
-      quantitativeAnalysis: this.getReportResult(performanceMetrics),
-      fairnessAnalysis: this.getReportResult(fairnessReports),
+      explainabilityAnalysis: EAresult,
+      quantitativeAnalysis: QAresult,
+      fairnessAnalysis: FAresult,
     };
+
+    if (
+      EAresult.failCount > 0 ||
+      QAresult.failCount > 0 ||
+      FAresult.failCount > 0
+    ) {
+      core.setFailed('The model does not pass the FEAT analysis');
+    }
 
     return testResult;
   };

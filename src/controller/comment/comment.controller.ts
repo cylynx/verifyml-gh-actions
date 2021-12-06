@@ -6,8 +6,8 @@ import * as core from '@actions/core';
 class CommentController implements CommentInterface {
   private constructMarkdown(result: TestResult, filePath: string): string {
     const repoUrl = github.context.payload.repository?.html_url;
-    const { GITHUB_HEAD_REF } = process.env;
-    const githubDataPath = `${repoUrl}/blob/${GITHUB_HEAD_REF}${filePath}`;
+    const { GITHUB_SHA } = process.env;
+    const githubDataPath = `${repoUrl}/blob/${GITHUB_SHA}${filePath}`;
 
     const title = this.constructTitle(githubDataPath);
     const testSummary = this.constructResult(result);

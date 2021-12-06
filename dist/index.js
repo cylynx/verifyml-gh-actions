@@ -17509,8 +17509,7 @@ ${viewer}`;
     constructInspect(filePath, modelCardName) {
         const modelCardLink = `https://report.verifyml.com/redirect?url=${filePath}&section=modelDetails`;
         const content = `🔍 Inspect: **[${modelCardName}](${modelCardLink})**
-
-    A public repository is required to use the Model Card Viewer.
+🚨 A public repository is required to use the Model Card Viewer.
     `;
         return content;
     }

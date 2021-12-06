@@ -17686,18 +17686,26 @@ class ProtobufController {
             const EAresult = this.getReportResult(explainabilityReports);
             const QAresult = this.getReportResult(performanceMetrics);
             const FAresult = this.getReportResult(fairnessReports);
+            this.displayTestMessage(EAresult.failCount, QAresult.failCount, FAresult.failCount);
             const testResult = {
                 explainabilityAnalysis: EAresult,
                 quantitativeAnalysis: QAresult,
                 fairnessAnalysis: FAresult,
             };
-            if (EAresult.failCount > 0 ||
-                QAresult.failCount > 0 ||
-                FAresult.failCount > 0) {
-                core.setFailed('The model does not pass the FEAT analysis');
-            }
             return testResult;
         };
+    }
+    displayTestMessage(EAfailCount, QAfailCount, FAfailcount) {
+        if (EAfailCount > 0) {
+            core.setFailed('The model does not pass the Explainability Analysis test');
+        }
+        if (QAfailCount > 0) {
+            core.setFailed('The model does not pass the Qualitative Analysis test');
+        }
+        if (FAfailcount > 0) {
+            core.setFailed('The model does not pass the Fairness Analysis test');
+        }
+        return null;
     }
 }
 exports["default"] = ProtobufController;

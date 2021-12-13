@@ -31,4 +31,4 @@ jobs:
           data-path: '/examples/model_card_output/data/loan_approval_example.proto'
 ```
 
-The `data-path` input is required. It must be specify for the action to read the dataset from a specific path in order to generate test result.
+The `data-path` input is required - the action will read the model card from the given path and use it to generate the test results.

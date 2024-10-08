@@ -1,7 +1,7 @@
 {
   "name": "verifyml-reports",
-  "version": "1.0.10",
-  "private": true,
+  "version": "1.0.11",
+  "private": false,
   "description": "Automated documentation of model and alerts from performance / fairness checks.",
   "main": "dist/index.js",
   "engines": {
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cylynx/verifyml-gh-actions.git"
+    "url": "git+https://github.com/cylynx/verifyml-report.git"
   },
   "keywords": [
     "VerifyML"
@@ -24,9 +24,9 @@
   "author": "Cylynx Pte Ltd",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/cylynx/verifyml-gh-actions/issues"
+    "url": "https://github.com/cylynx/verifyml-report/issues"
   },
-  "homepage": "https://github.com/cylynx/verifyml-gh-actions#README",
+  "homepage": "https://github.com/cylynx/verifyml-report#README",
   "devDependencies": {
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",
